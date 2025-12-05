@@ -2,7 +2,8 @@ module Enterprise::SuperAdmin::AppConfigsController
   private
 
   def allowed_configs
-    return super if ChatwootHub.pricing_plan == 'community'
+    # Removed plan restriction to allow all features
+    # return super if ChatwootHub.pricing_plan == 'community'
 
     case @config
     when 'custom_branding'

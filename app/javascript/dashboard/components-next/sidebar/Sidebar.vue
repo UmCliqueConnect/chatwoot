@@ -126,7 +126,7 @@ const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
-    {
+    /* {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
       icon: 'i-lucide-inbox',
@@ -135,11 +135,19 @@ const menuItems = computed(() => {
       getterKeys: {
         count: 'notifications/getUnreadCount',
       },
-    },
+    }, */
     {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
       icon: 'i-lucide-message-circle',
+      to: accountScopedRoute('home'),
+      activeOn: ['inbox_conversation'],
+    },
+    /* {
+      name: 'Conversation',
+      label: t('SIDEBAR.CONVERSATIONS'),
+      icon: 'i-lucide-message-circle', activeOn: ['inbox_conversation'],
+      to: accountScopedRoute('home'),
       children: [
         {
           name: 'All',
@@ -216,8 +224,8 @@ const menuItems = computed(() => {
           })),
         },
       ],
-    },
-    {
+    }, */
+    /*{
       name: 'Captain',
       icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
@@ -469,7 +477,7 @@ const menuItems = computed(() => {
           }),
         },
       ],
-    },
+    },*/
     {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
@@ -481,7 +489,7 @@ const menuItems = computed(() => {
           icon: 'i-lucide-briefcase',
           to: accountScopedRoute('general_settings_index'),
         },
-        {
+        /*{
           name: 'Settings Agents',
           label: t('SIDEBAR.AGENTS'),
           icon: 'i-lucide-square-user',
@@ -504,14 +512,14 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.INBOXES'),
           icon: 'i-lucide-inbox',
           to: accountScopedRoute('settings_inbox_list'),
-        },
+        },*/
         {
           name: 'Settings Labels',
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tags',
           to: accountScopedRoute('labels_list'),
         },
-        {
+        /*{
           name: 'Settings Custom Attributes',
           label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
           icon: 'i-lucide-code',
@@ -534,14 +542,14 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.MACROS'),
           icon: 'i-lucide-toy-brick',
           to: accountScopedRoute('macros_wrapper'),
-        },
+        },*/
         {
           name: 'Settings Canned Responses',
           label: t('SIDEBAR.CANNED_RESPONSES'),
           icon: 'i-lucide-message-square-quote',
           to: accountScopedRoute('canned_list'),
         },
-        {
+        /* {
           name: 'Settings Integrations',
           label: t('SIDEBAR.INTEGRATIONS'),
           icon: 'i-lucide-blocks',
@@ -576,7 +584,7 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.BILLING'),
           icon: 'i-lucide-credit-card',
           to: accountScopedRoute('billing_settings_index'),
-        },
+        }, */
       ],
     },
   ];
@@ -584,82 +592,57 @@ const menuItems = computed(() => {
 </script>
 
 <template>
-  <aside
-    v-on-click-outside="[
-      closeMobileSidebar,
-      { ignore: ['#mobile-sidebar-launcher'] },
-    ]"
+  <aside v-on-click-outside="[
+    closeMobileSidebar,
+    { ignore: ['#mobile-sidebar-launcher'] },
+  ]"
     class="bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak flex flex-col text-sm pb-1 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 transition-transform duration-200 ease-in-out md:static w-[200px] basis-[200px] md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
         'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
       },
-    ]"
-  >
+    ]">
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex gap-2 items-center px-2 min-w-0">
         <div class="grid flex-shrink-0 place-content-center size-6">
           <Logo class="size-4" />
         </div>
         <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
-        <SidebarAccountSwitcher
-          class="flex-grow -mx-1 min-w-0"
-          @show-create-account-modal="emit('showCreateAccountModal')"
-        />
+        <SidebarAccountSwitcher class="flex-grow -mx-1 min-w-0"
+          @show-create-account-modal="emit('showCreateAccountModal')" />
       </div>
       <div class="flex gap-2 px-2">
-        <RouterLink
-          :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
-        >
+        <RouterLink :to="{ name: 'search' }"
+          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30">
           <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-11" />
           <span class="flex-grow text-left">
             {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
-          <span
-            class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
-          >
+          <span class="hidden tracking-wide pointer-events-none select-none text-n-slate-10">
             {{ searchShortcut }}
           </span>
         </RouterLink>
         <ComposeConversation align-position="right">
           <template #trigger="{ toggle }">
-            <Button
-              icon="i-lucide-pen-line"
-              color="slate"
-              size="sm"
-              class="!h-7 !bg-n-solid-3 dark:!bg-n-black/30 !outline-n-weak !text-n-slate-11"
-              @click="toggle"
-            />
+            <Button icon="i-lucide-pen-line" color="slate" size="sm"
+              class="!h-7 !bg-n-solid-3 dark:!bg-n-black/30 !outline-n-weak !text-n-slate-11" @click="toggle" />
           </template>
         </ComposeConversation>
       </div>
     </section>
     <nav class="grid overflow-y-scroll flex-grow gap-2 px-2 pb-5 no-scrollbar">
       <ul class="flex flex-col gap-1.5 m-0 list-none">
-        <SidebarGroup
-          v-for="item in menuItems"
-          :key="item.name"
-          v-bind="item"
-        />
+        <SidebarGroup v-for="item in menuItems" :key="item.name" v-bind="item" />
       </ul>
     </nav>
-    <section
-      class="flex flex-col flex-shrink-0 relative gap-1 justify-between items-center"
-    >
+    <section class="flex flex-col flex-shrink-0 relative gap-1 justify-between items-center">
       <div
-        class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-solid-2 to-transparent"
-      />
-      <SidebarChangelogCard
-        v-if="isOnChatwootCloud && !isACustomBrandedInstance"
-      />
+        class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-solid-2 to-transparent" />
+      <SidebarChangelogCard v-if="isOnChatwootCloud && !isACustomBrandedInstance" />
       <div
-        class="p-1 flex-shrink-0 flex w-full justify-between z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
-      >
-        <SidebarProfileMenu
-          @open-key-shortcut-modal="emit('openKeyShortcutModal')"
-        />
+        class="p-1 flex-shrink-0 flex w-full justify-between z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]">
+        <SidebarProfileMenu @open-key-shortcut-modal="emit('openKeyShortcutModal')" />
       </div>
     </section>
   </aside>
